@@ -21,9 +21,12 @@ export const sendMessage = async (req, res) => {
             receiverId, // receiverId       
             message
         })
+        // add msg id to conversation
         newMessage && conversation.messages.push(newMessage._id);
         //Socket.io functionality
 
+
+        //
         if (conversation && newMessage) {
             Promise.all([conversation.save(), newMessage.save()])
         }

@@ -6,11 +6,13 @@ import jwt from "jsonwebtoken";
  * @param {Response} res - The response object
  */
 export const generateTokenAndSetCookie = (userId, res) => {
+  
     const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "15d" });
     res.cookie("jwt", token, {
-        httpOnly: true,//prevents XSS attacks
-        secure:process.env.NODE_ENV==="production",//prevents HTTP attacks
-        maxAge: 15 * 24 * 60 * 60 * 1000,//15 days
-        sameSite: "strict",//prevents CSRF attacks
-    });
+      
+		maxAge: 15 * 24 * 60 * 60 * 1000, // MS
+		httpOnly: false, // prevent XSS attacks cross-site scripting attacks
+		// sameSite: "none", // CSRF attacks cross-site request forgery attacks
+		secure: false
+	});
 }

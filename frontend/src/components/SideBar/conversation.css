@@ -1,0 +1,13 @@
+.conv-element {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.conv-element:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* opacity: 0.8; */
+}
+.bg-selected{
+    background-color: rgba(255, 255, 255, 0.1);
+    
+}

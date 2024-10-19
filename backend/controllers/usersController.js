@@ -1,7 +1,8 @@
- import User from "../models/user.model.js";
+import User from "../models/user.model.js";
 
 
 export const getUsers = async (req, res) => {
+
     const userLoggedIn = req.user._id;
     try {
         const users = await User.find({
@@ -17,4 +18,4 @@ export const getUsers = async (req, res) => {
             error: error.message
         });
     }
-}   
+}
