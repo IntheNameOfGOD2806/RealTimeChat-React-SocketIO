@@ -9,7 +9,7 @@ export default defineConfig({
 	
 		proxy: {
 			"/api": {
-				target: "http://localhost:2806",
+				target: "https://realtimechat-react-socketio.onrender.com",
 			},
 		},
 	},

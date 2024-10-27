@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'https://realtimechat-react-socketio.onrender.com/',
+    baseURL: 'https://realtimechat-react-socketio.onrender.com',
 });
 
 // Add a request interceptor

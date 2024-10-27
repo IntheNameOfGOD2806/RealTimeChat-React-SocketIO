@@ -12,7 +12,7 @@ const useLogin = () => {
         if (!success) return
         try {
             setLoading(true)
-            const res = await fetch('http://localhost:2806/api/auth/login', {
+            const res = await fetch('https://realtimechat-react-socketio.onrender.com/api/auth/login', {
                 method: "POST",
                 credentials: "include",
                 headers: {

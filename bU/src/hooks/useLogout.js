@@ -8,7 +8,7 @@ const useLogout = () => {
 
     const logout = async () => {
         try {
-            const res = await fetch('http://localhost:2806/api/auth/logout', {
+            const res = await fetch('https://realtimechat-react-socketio.onrender.com/api/auth/logout', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
