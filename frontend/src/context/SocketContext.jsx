@@ -16,7 +16,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:2806", {
+      const socket = io("https://realtimechat-react-socketio.onrender.com/", {
         query: { userId: authUser._id },
       });
       setSocket(socket);
