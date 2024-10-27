@@ -19,7 +19,7 @@ export default function MessageInput({ fetchMessages }) {
   return (
     <>
       <form className="px-4 mt-10 w-full">
-        <div style={{ width: "1050px" }} className="w-full relative">
+        <div style={{ width: "1050px" }} className=" relative">
           <input
             style={{ width: "91%" }}
             value={messageInputValue}
