@@ -46,7 +46,6 @@ export const registerUser = async (req, res) => {
     }
 };
 export const login = async (req, res) => {
-   
     try {
         const { username, password } = req.body;
         // find user by username

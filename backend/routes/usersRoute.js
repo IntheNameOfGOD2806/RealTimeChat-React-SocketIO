@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { getUsers } from "../controllers/usersController.js";
+import { getUsers, searchUsers } from "../controllers/usersController.js";
 import { protectRoute } from "../middleware/protectRoute.js";
 const usersRoute = Router();
 
 usersRoute.get("/",
     protectRoute,
     getUsers);
-export default usersRoute;  
+usersRoute.get("/search",
+    protectRoute,
+    searchUsers);
+export default usersRoute;

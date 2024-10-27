@@ -1,8 +1,9 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocketId,io } from "../socket/socket.js";
 export const sendMessage = async (req, res) => {
     try {
-        // console.log("asdsada:::",req.user);
+    
         const { message } = req.body;
         const { receiverId } = req.params;
         const senderId = req.user._id;
@@ -14,28 +15,39 @@ export const sendMessage = async (req, res) => {
                 participants: [senderId, receiverId],
                 messages: []
             })
-            // await conversation.save();
+        
         }
         const newMessage = new Message({
             senderId,
-            receiverId, // receiverId       
+            receiverId,
             message
         })
+
+
         // add msg id to conversation
         newMessage && conversation.messages.push(newMessage._id);
+
+
         //Socket.io functionality
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            console.log("receiverSocketId::::::::::::::", receiverSocketId);
+            io.to(receiverSocketId).emit("receive_message", newMessage);
+        }
 
-
-        //
         if (conversation && newMessage) {
+            // parallel save
             Promise.all([conversation.save(), newMessage.save()])
         }
+
         if (newMessage) {
             res.status(200).json({
                 success: true,
                 message: "Message sent successfully"
             });
         }
+
+
     } catch (error) {
         res.status(500).json({
             success: false,
