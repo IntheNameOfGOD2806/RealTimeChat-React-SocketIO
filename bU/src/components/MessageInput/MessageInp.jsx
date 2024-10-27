@@ -1,26 +1,27 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { BsSend } from 'react-icons/bs';
-import { sendMessage } from '../../services/apiService';
-import useConversation from '../../zustand/useConversation';
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { BsSend } from "react-icons/bs";
+import { sendMessage } from "../../services/apiService";
+import useConversation from "../../zustand/useConversation";
 // eslint-disable-next-line react/prop-types
-export default function MessageInput({fetchMessages}) {
+export default function MessageInput({ fetchMessages }) {
   MessageInput.PropTypes = {
     fetchMessages: PropTypes.func.isRequired,
-  }
+  };
   const { selectedConversation } = useConversation();
-  const[messageInputValue,setMessageInputValue] = useState("");
-  const submitForm = async(e) => {
+  const [messageInputValue, setMessageInputValue] = useState("");
+  const submitForm = async (e) => {
     e.preventDefault();
-    await sendMessage(selectedConversation?._id,messageInputValue);
+    await sendMessage(selectedConversation?._id, messageInputValue);
     await fetchMessages();
     setMessageInputValue("");
   };
   return (
     <>
       <form className="px-4 mt-10 w-full">
-        <div  style={{width:"1050px"}} className="w-full relative">
+        <div style={{ width: "1050px" }} className="w-full relative">
           <input
+            style={{ width: "91%" }}
             value={messageInputValue}
             onChange={(e) => setMessageInputValue(e.target.value)}
             type="text"
