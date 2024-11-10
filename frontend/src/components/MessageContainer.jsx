@@ -8,7 +8,9 @@ import useConversation from "../zustand/useConversation";
 import useListenMessages from "../hooks/useListenMessages";
 // import { MessageSkeleton } from "./skeletons/MessageSkeleton";
 export default function MessageContainer() {
+  //socket logic
   useListenMessages();
+  //
   const [loading, setLoading] = useState(false);
   const fetchMessages = async () => {
     setLoading(true);

@@ -1,0 +1,17 @@
+// vite.config.js
+import react from "file:///E:/git%20repo/RealTimeChat-React-SocketIO/frontend/node_modules/@vitejs/plugin-react/dist/index.mjs";
+import { defineConfig } from "file:///E:/git%20repo/RealTimeChat-React-SocketIO/frontend/node_modules/vite/dist/node/index.js";
+var vite_config_default = defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://realtimechat-react-socketio.onrender.com"
+      }
+    }
+  }
+});
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcuanMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCJFOlxcXFxnaXQgcmVwb1xcXFxSZWFsVGltZUNoYXQtUmVhY3QtU29ja2V0SU9cXFxcZnJvbnRlbmRcIjtjb25zdCBfX3ZpdGVfaW5qZWN0ZWRfb3JpZ2luYWxfZmlsZW5hbWUgPSBcIkU6XFxcXGdpdCByZXBvXFxcXFJlYWxUaW1lQ2hhdC1SZWFjdC1Tb2NrZXRJT1xcXFxmcm9udGVuZFxcXFx2aXRlLmNvbmZpZy5qc1wiO2NvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9pbXBvcnRfbWV0YV91cmwgPSBcImZpbGU6Ly8vRTovZ2l0JTIwcmVwby9SZWFsVGltZUNoYXQtUmVhY3QtU29ja2V0SU8vZnJvbnRlbmQvdml0ZS5jb25maWcuanNcIjtpbXBvcnQgcmVhY3QgZnJvbSBcIkB2aXRlanMvcGx1Z2luLXJlYWN0XCI7XHJcbmltcG9ydCB7IGRlZmluZUNvbmZpZyB9IGZyb20gXCJ2aXRlXCI7XHJcblxyXG4vLyBodHRwczovL3ZpdGVqcy5kZXYvY29uZmlnL1xyXG5leHBvcnQgZGVmYXVsdCBkZWZpbmVDb25maWcoe1xyXG5cdHBsdWdpbnM6IFtyZWFjdCgpXSxcclxuXHRcclxuXHRzZXJ2ZXI6IHtcclxuXHRcclxuXHRcdHByb3h5OiB7XHJcblx0XHRcdFwiL2FwaVwiOiB7XHJcblx0XHRcdFx0dGFyZ2V0OiBcImh0dHBzOi8vcmVhbHRpbWVjaGF0LXJlYWN0LXNvY2tldGlvLm9ucmVuZGVyLmNvbVwiLFxyXG5cdFx0XHR9LFxyXG5cdFx0fSxcclxuXHR9LFxyXG59KTsiXSwKICAibWFwcGluZ3MiOiAiO0FBQTRVLE9BQU8sV0FBVztBQUM5VixTQUFTLG9CQUFvQjtBQUc3QixJQUFPLHNCQUFRLGFBQWE7QUFBQSxFQUMzQixTQUFTLENBQUMsTUFBTSxDQUFDO0FBQUEsRUFFakIsUUFBUTtBQUFBLElBRVAsT0FBTztBQUFBLE1BQ04sUUFBUTtBQUFBLFFBQ1AsUUFBUTtBQUFBLE1BQ1Q7QUFBQSxJQUNEO0FBQUEsRUFDRDtBQUNELENBQUM7IiwKICAibmFtZXMiOiBbXQp9Cg==
