@@ -1,10 +1,19 @@
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import User from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateToken.js";
+import OTP from "../models/otp.model.js";
 export const registerUser = async (req, res) => {
   try {
-    const { username, fullName, password, confirmPassword, gender } = req.body;
-    if (!username || !fullName || !password || !confirmPassword || !gender) {
+    const { email, fullName, password, confirmPassword, gender, otp } =
+      req.body;
+    if (
+      !email ||
+      !fullName ||
+      !password ||
+      !confirmPassword ||
+      !gender ||
+      !otp
+    ) {
       return res.status(403).json({
         success: false,
         message: "All fields are required",
@@ -17,22 +26,34 @@ export const registerUser = async (req, res) => {
         error: "Password and Confirm Password do not match",
       });
     }
-    // check if username already exists
-    const checkDuplicateUsername = await User.findOne({ username });
-    if (checkDuplicateUsername) {
+    // check if email already exists
+    const checkDuplicateemail = await User.findOne({ email });
+    if (checkDuplicateemail) {
       return res.status(400).json({
         success: false,
-        error: "Username already exists",
+        error: "email already exists",
+      });
+    }
+    // Find the most recent OTP for the email
+    const response = await OTP.find({ email: email })
+      .sort({ createdAt: -1 })
+      .limit(1)
+      .lean();
+    // console.log(">>>>> response:::::", response);
+    if (!response || response.length === 0 || otp !== response[0].otp) {
+      return res.status(400).json({
+        success: false,
+        message: "The OTP is not valid or expired",
       });
     }
     // hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     // generate profile picture
-    const boyProfilePicture = `https://avatar.iran.liara.run/public/boy?username=${username}`;
-    const girlProfilePicture = `https://avatar.iran.liara.run/public/girl?username=${username}`;
+    const boyProfilePicture = `https://avatar.iran.liara.run/public/boy?email=${email}`;
+    const girlProfilePicture = `https://avatar.iran.liara.run/public/girl?email=${email}`;
     const newUser = new User({
-      username,
+      email,
       fullName,
       password: hashedPassword,
       gender,
@@ -55,13 +76,13 @@ export const registerUser = async (req, res) => {
 };
 export const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    // find user by username
-    const user = await User.findOne({ username });
+    const { email, password } = req.body;
+    // find user by email
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
         success: false,
-        error: "invalid username or password",
+        error: "invalid email or password",
       });
     }
     // check password

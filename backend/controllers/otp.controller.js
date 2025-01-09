@@ -1,6 +1,6 @@
 // controllers/otpController.js
 import otpGenerator from "otp-generator";
-import OTP from "../models/otp.schema.js";
+import OTP from "../models/otp.model.js";
 import User from "../models/user.model.js";
 
 export const sendOTP = async (req, res) => {
@@ -27,8 +27,11 @@ export const sendOTP = async (req, res) => {
       });
       result = await OTP.findOne({ otp });
     }
-    const otpPayload = { email, otp };
+    const otpPayload = new OTP({ email, otp });
+    //save otp to database
+    await otpPayload.save();
     const otpBody = await OTP.create(otpPayload);
+    // await otpBody.save();
     res.status(200).json({
       success: true,
       message: "OTP sent successfully",
