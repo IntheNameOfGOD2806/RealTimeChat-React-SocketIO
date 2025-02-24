@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import msgRoutes from "./routes/msgRoutes.js";
 import usersRoute from "./routes/usersRoute.js";
 import OtpRouter from "./routes/otpRoutes.js";
+import uploadRouter from "./routes/cloud-upload.js";
 import { app, server } from "./socket/socket.js";
 dotenv.config();
 // const app = express();
@@ -16,12 +17,16 @@ app.use(cookieParser());
 const __dirname = path.resolve();
 // auth routes
 app.use("/api/auth", authRoutes);
+app.use("/fun", (req, res) => {
+  res.json("hello world 123444234242");
+});
+
 // msg routes
 app.use("/api/msg", msgRoutes);
 app.use("/api/users", usersRoute);
 app.use("/api/otp", OtpRouter);
-
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.use("/api/uploads", uploadRouter);
+// app.use(express.static(path.join(__dirname, "/frontend/dist")));
 const PORT = process.env.PORT || 2806;
 // app.use(cors({
 //     origin: 'http://localhost:5173',
@@ -29,9 +34,9 @@ const PORT = process.env.PORT || 2806;
 // }));
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+// });
 server.listen(PORT, () => {
   connectToMongoDB();
   console.log("server is running on port 2806");

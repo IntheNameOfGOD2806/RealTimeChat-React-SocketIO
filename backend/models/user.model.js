@@ -24,14 +24,27 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
+    role: {
+      type: String,
+      default: "user",
+      enum: ["user", "admin"],
     },
     isActive: {
       type: Boolean,
       default: false,
     },
+    cartItems: [
+      {
+       quantity:{
+        type: Number,
+        default: 1,
+       },
+       product:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+       }
+      },
+    ],
   },
   {
     timestamps: true,
