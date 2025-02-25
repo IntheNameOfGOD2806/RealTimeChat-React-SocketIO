@@ -8,7 +8,7 @@
  export const connectToMongoDB = async () => {
     try {
         await mongoose.connect(MONGO_URI,{
-            dbName: "React-ChatRealTime"
+            dbName: "PRM_Project"
         });
         console.log("Connected to MongoDB");
     } catch (error) {

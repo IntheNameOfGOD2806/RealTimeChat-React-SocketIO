@@ -12,9 +12,12 @@ export const protectRoute = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const expired = jwt.decode(token).exp < Date.now() / 1000;
 
-    if (!decoded) {
-      return res.status(401).json({ error: "Unauthorized - Invalid Token" });
+    if (!decoded || expired) {
+      return res
+        .status(401)
+        .json({ error: "Unauthorized - Invalid Token/Expired Token" });
     }
 
     const user = await User.findById(decoded.userId).select("-password");

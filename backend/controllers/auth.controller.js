@@ -1,19 +1,14 @@
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import User from "../models/user.model.js";
-import { generateTokenAndSetCookie } from "../utils/generateToken.js";
+import {
+  generateTokenAndSetCookie,
+  storeRefreshToken,
+} from "../utils/generateToken.js";
 import OTP from "../models/otp.model.js";
 export const registerUser = async (req, res) => {
   try {
-    const { email, fullName, password, confirmPassword, gender, otp } =
-      req.body;
-    if (
-      !email ||
-      !fullName ||
-      !password ||
-      !confirmPassword ||
-      !gender ||
-      !otp
-    ) {
+    const { email, fullName, password, confirmPassword, gender } = req.body;
+    if (!email || !fullName || !password || !confirmPassword || !gender) {
       return res.status(403).json({
         success: false,
         message: "All fields are required",
@@ -35,17 +30,17 @@ export const registerUser = async (req, res) => {
       });
     }
     // Find the most recent OTP for the email
-    const response = await OTP.find({ email: email })
-      .sort({ createdAt: -1 })
-      .limit(1)
-      .lean();
-    // console.log(">>>>> response:::::", response);
-    if (!response || response.length === 0 || otp !== response[0].otp) {
-      return res.status(400).json({
-        success: false,
-        message: "The OTP is not valid or expired",
-      });
-    }
+    // const response = await OTP.find({ email: email })
+    //   .sort({ createdAt: -1 })
+    //   .limit(1)
+    //   .lean();
+    // // console.log(">>>>> response:::::", response);
+    // if (!response || response.length === 0 || otp !== response[0].otp) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "The OTP is not valid or expired",
+    //   });
+    // }
     // hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -63,12 +58,18 @@ export const registerUser = async (req, res) => {
     // save user to database
     newUser && (await newUser.save());
     // generate token and set cookie
-    generateTokenAndSetCookie(newUser._id, res);
+    const { accessToken, refreshToken } = generateTokenAndSetCookie(
+      newUser._id,
+      res
+    );
+    await storeRefreshToken(newUser._id, refreshToken);
     newUser &&
       res.status(201).json({
         success: true,
         message: "User created successfully",
         user: newUser,
+        accessToken,
+        refreshToken,
       });
   } catch (error) {
     console.log(error);
