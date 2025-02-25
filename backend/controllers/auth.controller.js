@@ -81,7 +81,7 @@ export const login = async (req, res) => {
     // find user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
         error: "invalid email or password",
       });
@@ -92,7 +92,7 @@ export const login = async (req, res) => {
       user?.password || ""
     );
     if (!isPasswordCorrect) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
         error: "Incorrect password",
       });
