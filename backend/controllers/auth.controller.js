@@ -5,6 +5,7 @@ import {
   storeRefreshToken,
 } from "../utils/generateToken.js";
 import OTP from "../models/otp.model.js";
+import redis from "../libs/redis.js";
 export const registerUser = async (req, res) => {
   try {
     const { email, fullName, password, confirmPassword, gender } = req.body;
@@ -98,12 +99,17 @@ export const login = async (req, res) => {
       });
     }
     // generate token and set cookie
-    generateTokenAndSetCookie(user._id, res);
+    const { accessToken, refreshToken } = generateTokenAndSetCookie(
+      user._id,
+      res
+    );
     user &&
       res.status(200).json({
         success: true,
         message: "User logged in successfully",
         user,
+        accessToken,
+        refreshToken,
       });
   } catch (error) {
     res.status(500).json({
@@ -114,18 +120,21 @@ export const login = async (req, res) => {
 };
 export const logout = async (req, res) => {
   try {
-    res.cookie("jwt", "", {
-      expires: new Date(Date.now()),
-      httpOnly: true,
-    });
-    res.status(200).json({
+   const refreshToken = req.cookies.refreshToken;
+   if (!refreshToken) {
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+    await redis.del(`refreshToken:${decoded.userId}`);
+    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken");
+    res.json({
       success: true,
-      message: "User logged out successfully",
-    });
+      message: "User logged out successfully"
+    })
+   }
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: "something went wrong",
     });
   }
 };

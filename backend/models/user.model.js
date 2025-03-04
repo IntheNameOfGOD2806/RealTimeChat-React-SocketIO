@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: "",
+      default: "https://i.pravatar.cc/150?img=1",
     },
     role: {
       type: String,
