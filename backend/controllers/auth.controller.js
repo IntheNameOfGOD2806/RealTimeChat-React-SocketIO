@@ -103,6 +103,7 @@ export const login = async (req, res) => {
       user._id,
       res
     );
+    await storeRefreshToken(user._id, refreshToken);
     user &&
       res.status(200).json({
         success: true,
@@ -131,6 +132,45 @@ export const logout = async (req, res) => {
       message: "User logged out successfully"
     })
    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: "something went wrong",
+    });
+  }
+};
+//refresh token
+export const refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+      return res.status(401).json({
+        success: false,
+        error: "No refresh token provided",
+      });
+    }
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+    const storedToken = await redis.get(`refreshToken:${decoded.userId}`);
+    // check if refresh token is valid
+    if (refreshToken !== storedToken) {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid refresh token",
+      });
+    }
+    const accessToken = jwt.sign({ userId: decoded.userId }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true, // prevent XSS attacks cross-site scripting attacks
+      maxAge: 15 * 24 * 60 * 60 * 1000, // MS
+      secure: true
+    });
+    res.json({
+      success: true,
+      accessToken,
+      message: "Token refreshed successfully",
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
