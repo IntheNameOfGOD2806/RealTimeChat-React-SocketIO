@@ -6,6 +6,8 @@ import {
 } from "../utils/generateToken.js";
 import OTP from "../models/otp.model.js";
 import redis from "../libs/redis.js";
+import jwt from "jsonwebtoken";
+import { message } from "antd";
 export const registerUser = async (req, res) => {
   try {
     const { email, fullName, password, confirmPassword, gender } = req.body;
@@ -139,7 +141,7 @@ export const logout = async (req, res) => {
     });
   }
 };
-//refresh token
+//refresh access token
 export const refreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
@@ -164,18 +166,40 @@ export const refreshToken = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true, // prevent XSS attacks cross-site scripting attacks
       maxAge: 15 * 24 * 60 * 60 * 1000, // MS
-      secure: true
     });
     res.json({
       success: true,
       accessToken,
       message: "Token refreshed successfully",
     });
+
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: "something went wrong",
+      error: error.message,
+      message: "something went wrong",
     });
   }
 };
-// test
+// get profile
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+    res.json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+

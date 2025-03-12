@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { protectRoute } from "../middleware/protectRoute.js";
+import { protectRoute } from "../middleware/auth.middleware.js";
 import { getMessages, sendMessage } from "../controllers/message.controller.js";
 const msgRoutes = Router();
 msgRoutes.get("/:id",protectRoute,getMessages);

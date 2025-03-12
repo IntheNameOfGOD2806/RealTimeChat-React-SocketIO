@@ -10,6 +10,10 @@ import usersRoute from "./routes/usersRoute.js";
 import OtpRouter from "./routes/otpRoutes.js";
 import uploadRouter from "./routes/cloud-upload.js";
 import { app, server } from "./socket/socket.js";
+import productRoutes from "./routes/productRoutes.js";
+import CloudUpload from "./routes/cloud-upload.js";
+import cartRoutes from "./routes/cart.routes.js";
+import couponRoutes from "./routes/coupon.routes.js";
 dotenv.config();
 // const app = express();
 app.use(express.json());
@@ -26,6 +30,18 @@ app.use("/api/msg", msgRoutes);
 app.use("/api/users", usersRoute);
 app.use("/api/otp", OtpRouter);
 app.use("/api/uploads", uploadRouter);
+app.use('/api/products',
+  productRoutes
+)
+app.use('/api/cloud-upload',
+  CloudUpload
+)
+app.use('/api/cart',
+  cartRoutes
+)
+app.use('/api/coupon',
+  couponRoutes
+)
 // app.use(express.static(path.join(__dirname, "/frontend/dist")));
 const PORT = process.env.PORT || 2806;
 // app.use(cors({

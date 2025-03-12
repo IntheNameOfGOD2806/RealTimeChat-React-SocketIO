@@ -1,0 +1,14 @@
+import express, { Router } from "express";
+import { adminRoute, protectRoute } from "../middleware/auth.middleware.js";
+import { getAllProducts } from "../controllers/product.controller.js";
+import { createProduct } from "../controllers/product.controller.js";
+import { getFeaturedProducts } from "../controllers/product.controller.js";
+import { deleteProduct } from "../controllers/product.controller.js";
+import uploadCloud from "../configs/cloudinary.config.js";
+const productRoutes = Router();
+productRoutes.get("/", getAllProducts);
+productRoutes.get("/admin", protectRoute, adminRoute, getAllProducts);
+productRoutes.get("/featured", protectRoute, adminRoute, getFeaturedProducts);
+productRoutes.post("/create", protectRoute, createProduct);
+productRoutes.delete("/delete/:id", protectRoute, deleteProduct);
+export default productRoutes;

@@ -12,8 +12,13 @@ const storage = new CloudinaryStorage({
   cloudinary,
   allowedFormats: ['jpg', 'png'],
   filename: (req, file, cb) => cb(null, file.originalname),
+  // params: {
+  //   folder: 'products',
+  // },    
 });
 
 const uploadCloud = multer({ storage });
-
+export {
+  cloudinary
+}
 export default uploadCloud;
