@@ -10,7 +10,15 @@ export default defineConfig({
 		proxy: {
 			"/api": {
 				target: "http://localhost:2806",
+				changeOrigin: true,
+				secure: false,
+				rewrite: (path) => path.replace(/^\/api/, ""),
 			},
+		},
+		cors: {
+			origin: "http://localhost:5173",
+			methods: ["GET", "POST" ,"PUT" ,"DELETE"],
+			credentials: true,
 		},
 	},
 });
