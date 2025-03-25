@@ -4,19 +4,21 @@ import SearchInput from "./SearchInput";
 import "./sidebar.css";
 import { useEffect, useState } from "react";
 import useGetConversation from "../../hooks/useGetConversation";
+import { useNavigate } from "react-router";
 export default function SideBar() {
-  const { loading, conversation,setConversation } = useGetConversation();
-  const[isMounted, setIsMounted] = useState(false)
+  const { loading, conversation, setConversation } = useGetConversation();
+  const [isMounted, setIsMounted] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
   return (
     <>
       <div className="w-full h-5/6 sidebar-container">
         <div>
-          <SearchInput 
-          conversation={conversation}
-          setConversation={setConversation}
+          <SearchInput
+            conversation={conversation}
+            setConversation={setConversation}
           />
         </div>
         <div className="flex  relative flex-col w-full h-full mt-1 conv-container border-b  border-solid border-slate-500">
@@ -45,7 +47,9 @@ export default function SideBar() {
         </div>
       </div>
       <div className="absolute bottom-3 left-5">
-        <RiArrowGoBackFill className="w-8 h-8" />
+        <RiArrowGoBackFill onClick={() => {
+          
+        }} className="w-8 h-8" />
       </div>
     </>
   );
