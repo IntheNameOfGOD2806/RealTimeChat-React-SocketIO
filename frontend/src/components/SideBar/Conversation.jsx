@@ -59,7 +59,7 @@ export default function Conversation({ conversation }) {
             }}
             className=" text-ellipsis overflow-hidden whitespace-nowrap  text-gray-400"
           >
-            {conversation.fullName}
+            {`${conversation.fullName}-${conversation.gender}`}
           </span>
         </div>
         <div>

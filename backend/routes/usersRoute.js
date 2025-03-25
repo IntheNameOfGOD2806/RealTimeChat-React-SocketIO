@@ -8,6 +8,6 @@ import { protectRoute } from "../middleware/protectRoute.js";
 const usersRoute = Router();
 
 usersRoute.get("/", protectRoute, getUsers);
-usersRoute.get("/:id", protectRoute, getUserById);
 usersRoute.get("/search", protectRoute, searchUsers);
+usersRoute.get("/:id", protectRoute, getUserById);
 export default usersRoute;

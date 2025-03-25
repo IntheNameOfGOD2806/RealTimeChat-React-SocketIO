@@ -13,7 +13,6 @@ export default function Login() {
     e.stopPropagation();
     e.preventDefault();
     await signIn(inputs);
-
   };
   return (
     <>
