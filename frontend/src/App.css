@@ -1,0 +1,26 @@
+.chat-bubble {
+  max-width: max-content !important;
+}
+
+input.outline-none.ml-5.border.text-sm.rounded-2xl.block.w-full.p-2\.5.bg-gray-700.border-gray-600.placeholder-gray-400.text-white.focus\:ring-pink-500.focus\:border-pink-500 {
+  padding-right: 35px;
+}
+
+.message.ml-2.relative.top-2 {
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-word;
+
+  display: flex;
+
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: end;
+}
+
+.avatar img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+}
