@@ -43,6 +43,7 @@ export const getUserById = async (req, res) => {
 export const searchUsers = async (req, res) => {
 
     const keyword = req.query.keyword;
+    console.log('dasdsda',keyword)
     if(!keyword)
     return res.status(400).json({
         success: false,

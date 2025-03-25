@@ -13,7 +13,7 @@ const useListenMessages = () => {
   useEffect(() => {
     socket?.on("receive_message", async (data) => {
       const user = await getUserById(data?.senderId);
-      toast.success(`new message from ${user?.fullName}: ${data?.message}`, {
+      toast.success(`new message from ${user?.data?.fullName}: ${data?.message}`, {
         duration: 5000,
         position: "top-right",
       });
