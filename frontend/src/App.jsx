@@ -30,7 +30,9 @@ function App() {
   ]);
   return (
     <>
-      <div className="p-6 h-screen flex flex-col items-center justify-center">
+      <div style={{
+        paddingTop: "120px"
+      }} className=" h-screen flex flex-col items-center justify-center ">
         <RouterProvider router={router} />
         <Toaster />.
       </div>

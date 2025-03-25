@@ -30,7 +30,7 @@ export default function MessageContainer() {
   const { selectedConversation, messages, setMessages } = useConversation();
   useEffect(() => {
     selectedConversation?._id !== undefined && fetchMessages();
-  }, [selectedConversation?._id, setMessages,]);
+  }, [selectedConversation?._id, setMessages]);
   useEffect(() => {
     setTimeout(() => {
       LastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -48,8 +48,8 @@ export default function MessageContainer() {
           Please select a conversation
         </div>
       ) : (
-        <div className="md:min-w-[400px] overflow-auto pt-3  h-full flex flex-col gap-28">
-          {messages &&
+        <div className=" overflow-auto pt-3  h-full flex flex-col gap-28">
+          {
             messages?.length > 0 &&
             messages.map((message) => {
               return (
@@ -68,9 +68,7 @@ export default function MessageContainer() {
       )}
 
       <div className="chat w-full h-16 absolute -bottom-20 left-0 ">
-        <MessageInput 
-          fetchMessages={fetchMessages}
-        />
+        <MessageInput fetchMessages={fetchMessages} />
       </div>
     </>
   );

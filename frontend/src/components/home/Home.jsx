@@ -7,7 +7,12 @@ export default function Home() {
   const { loading, logout } = useLogout();
   return (
     <>
-      <div  className="border border-solid rounded-2xl border-slate-500 backdrop-filter backdrop-blur-lg home-container flex flex-row  mx-auto">
+      <div
+        style={{
+          height: "100vh",
+        }}
+        className="border border-solid rounded-2xl border-slate-500 backdrop-filter backdrop-blur-lg home-container flex flex-row  mx-auto"
+      >
         <div className=" flex-grow-1 min-w-96   border-r border-solid border-slate-500">
           <SideBar />
         </div>
@@ -15,17 +20,13 @@ export default function Home() {
           <MessageContainer></MessageContainer>
         </div>
       </div>{" "}
-   {
-    loading ? (
-      <span className="loading loading-dots loading-lg"></span>
-    ):
-    <button
-      onClick={logout}
-      className="btn btn-primary mt-6"
-    >
-      Log Out
-    </button>
-   }
+      {loading ? (
+        <span className="loading loading-dots loading-lg"></span>
+      ) : (
+        <button onClick={logout} className="btn btn-primary mt-6">
+          Log Out
+        </button>
+      )}
     </>
   );
 }
