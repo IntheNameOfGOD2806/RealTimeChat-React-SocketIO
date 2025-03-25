@@ -6,6 +6,12 @@ const getlistUsers = () => {
         { withCredentials: true }
     );
 }
+const getUserById = (id) => {
+    return axios.get(
+        `api/users/${id}`,
+        { withCredentials: true }
+    );
+}
 const getAllMessagesOfConversation = (id) => {
     return axios.get(
         `api/msg/${id}`,
@@ -28,5 +34,5 @@ const searchUsers = (keyword) => {
 
 
 export {
-    getlistUsers,getAllMessagesOfConversation,sendMessage,searchUsers
+    getlistUsers,getAllMessagesOfConversation,sendMessage,searchUsers,getUserById
 };
