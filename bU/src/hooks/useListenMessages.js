@@ -2,6 +2,7 @@
 import { useEffect } from "react"
 import { useSocketContext } from "../context/SocketContext"
 import useConversation from "../zustand/useConversation"
+import { extractTime } from "../../../frontend/src/utils/extractTime"
 
 const useListenMessages = () => {
     const { socket } = useSocketContext()
@@ -10,7 +11,10 @@ const useListenMessages = () => {
 
     useEffect(() => {
         socket?.on("receive_message", (data) => {
-            setMessages([...messages, data])
+            setMessages([...messages, {
+                ...data,
+                createdAt:extractTime(data?.createdAt)
+            }])
         })
         return () => {
             socket?.off("receive_message")
