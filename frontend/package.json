@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.24.5",
     "axios": "^1.7.7",
     "daisyui": "^4.6.1",
     "lodash": "^4.17.21",
