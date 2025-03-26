@@ -10,3 +10,7 @@
     max-height: 800px;
 
 }
+
+.flex.relative.flex-col.w-full.h-full.mt-1.conv-container.border-b.border-solid.border-slate-500 {
+    height: 97%;
+}
