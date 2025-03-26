@@ -24,7 +24,7 @@ export default function Login() {
         >
           <h1 className="text-3xl font-semibold text-center text-gray-300">
             Login
-            <span className="text-pink-500 pl-3">Dat09App</span>
+            <span className="text-pink-500 pl-3">WeChat</span>
           </h1>
           <form className=" flex flex-col gap-3 mt-4" action="">
             <div>

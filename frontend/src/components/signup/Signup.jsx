@@ -28,7 +28,7 @@ export default function Signup() {
         >
           <h1 className="text-3xl font-semibold text-center text-gray-300">
             SignUp
-            <span className="text-pink-500 pl-3">Dat09App</span>
+            <span className="text-pink-500 pl-3">WeChat</span>
           </h1>
           <form
             onSubmit={submitForm}
