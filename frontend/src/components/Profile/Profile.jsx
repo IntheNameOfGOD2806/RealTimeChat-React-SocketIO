@@ -10,6 +10,7 @@ import {
   updateUser,
 } from "../../services/apiService";
 import toast from "react-hot-toast";
+import { extractPublicId } from "../../utils/extractPublicId";
 
 export default function Profile() {
   const { authUser, setAuthUser } = useAuthContext();
@@ -28,6 +29,7 @@ export default function Profile() {
     } else {
       profilePictureURL = inputs.profilePicture;
     }
+  
     const response = await updateUser({
       ...inputs,
       _id: authUser._id,
@@ -40,9 +42,9 @@ export default function Profile() {
     if (response?.success) {
       //delete old profile picture
       if (isString(authUser.profilePicture)) {
-        await deleteFile(authUser.profilePicture);
+        const publicId = extractPublicId(authUser.profilePicture);
+        await deleteFile(publicId);
       }
-
       toast.success("Update profile successfully");
       setAuthUser({
         ...response.data,
@@ -63,9 +65,13 @@ export default function Profile() {
 
   return (
     <>
-      <div className=" navbar bg-base-100 shadow-sm">
+      <div className=" navbar bg-base-100 shadow-sm "
+      style={{
+        // marginTop: '-140px' 
+      }}
+      >
         <div className="flex-1">
-          <a href="/" className="btn btn-ghost text-xl">
+          <a onClick={() => navigate("/")} className="btn btn-ghost text-xl">
             WeChat
           </a>
         </div>
@@ -106,7 +112,7 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      <div className="border border-solid rounded-2xl border-slate-500 backdrop-filter backdrop-blur-lg home-container flex flex-row gap-2  mx-auto">
+      <div className="mt-6 border border-solid rounded-2xl border-slate-500 backdrop-filter backdrop-blur-lg home-container flex flex-row gap-2  mx-auto">
         {/* Ảnh đại diện */}
         <div
           style={{
@@ -114,6 +120,7 @@ export default function Profile() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            marginTop: "40px",
           }}
           className="avatar mb-4"
         >
@@ -145,7 +152,7 @@ export default function Profile() {
 
         {/* Form thông tin */}
         <div className="mt-4 w-full">
-          <label className="label">Username</label>
+          <label className="label font-bold text-lg">Username</label>
           <input
             type="text"
             name="username"
@@ -153,7 +160,7 @@ export default function Profile() {
             onChange={handleInputChange}
           />
 
-          <label className="label">Full Name</label>
+          <label className="label font-bold text-lg">Full Name</label>
           <input
             type="text"
             name="fullName"
@@ -161,7 +168,7 @@ export default function Profile() {
             onChange={handleInputChange}
           />
 
-          <label className="label">Gender</label>
+          <label className="label font-bold text-lg">Gender</label>
           <select
             name="gender"
             className="select select-bordered w-full"

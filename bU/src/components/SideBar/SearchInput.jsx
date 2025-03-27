@@ -3,6 +3,7 @@ import "./SearchInput.css";
 import { searchUsers } from "../../services/apiService";
 import _ from "lodash";
 import { getlistUsers } from "../../services/apiService";
+import { useSocketContext } from "../../../../frontend/src/context/SocketContext";
 export default function SearchInput({ conversation, setConversation }) {
   const fetchSearchUsers = async (keyword) => {
     const res = await searchUsers(keyword);
@@ -21,6 +22,7 @@ export default function SearchInput({ conversation, setConversation }) {
       );
     }
   };
+  
   return (
     <>
       <div className=" p-4 border-b border-solid border-slate-500">

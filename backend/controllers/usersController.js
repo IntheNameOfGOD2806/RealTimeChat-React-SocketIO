@@ -2,15 +2,25 @@ import User from "../models/user.model.js";
 
 
 export const getUsers = async (req, res) => {
-
     const userLoggedIn = req.user._id;
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 300;
+    const skip = (page - 1) * limit;
     try {
         const users = await User.find({
+            _id: { $ne: userLoggedIn }
+        }).skip(skip).limit(limit);
+        const count = await User.countDocuments({
             _id: { $ne: userLoggedIn }
         });
         res.status(200).json({
             success: true,
-            data: users
+            data: users,
+            meta: {
+                page,
+                limit,
+                total: count
+            }
         });
     } catch (error) {
         res.status(500).json({
@@ -51,7 +61,12 @@ export const searchUsers = async (req, res) => {
     });
     try {
         const users = await User.find({
-            username: { $regex: keyword, $options: "i" }
+            //search by username,fullName,gender(or)
+            $or: [
+                { username: { $regex: keyword, $options: "i" } },
+                { fullName: { $regex: keyword, $options: "i" } },
+                { gender: { $regex: keyword, $options: "i" } }
+            ]
         });
         res.status(200).json({
             success: true,
@@ -66,8 +81,8 @@ export const searchUsers = async (req, res) => {
 }
 export const updateUser = async (req, res) => {
     const userId = req.params.id;
-    const { username, fullName, gender, profilePicture } = req.body;
-    if(!username || !fullName || !gender || !profilePicture) {
+    const { username, fullName, gender, profilePicture, password } = req.body;
+    if(!username || !fullName || !gender || !profilePicture ) {
         return res.status(400).json({
             success: false,
             error: "Please provide all required fields"

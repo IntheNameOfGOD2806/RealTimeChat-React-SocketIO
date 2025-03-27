@@ -10,6 +10,7 @@ import useListenMessages from "../hooks/useListenMessages";
 export default function MessageContainer() {
   useListenMessages();
   const [loading, setLoading] = useState(false);
+  const [editMsg, setEditMsg] = useState(false);
   const fetchMessages = async () => {
     setLoading(true);
     try {
@@ -54,7 +55,7 @@ export default function MessageContainer() {
             messages.map((message) => {
               return (
                 <div key={message._id} ref={LastMessageRef}>
-                  <Message message={message} loading={loading} />
+                  <Message editMsg={editMsg} setEditMsg={setEditMsg} message={message} loading={loading} />
                 </div>
               );
             })}

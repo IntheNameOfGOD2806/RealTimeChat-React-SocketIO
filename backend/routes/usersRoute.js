@@ -12,4 +12,6 @@ usersRoute.get("/", protectRoute, getUsers);
 usersRoute.get("/search", protectRoute, searchUsers);
 usersRoute.get("/:id", protectRoute, getUserById);
 usersRoute.put("/:id", protectRoute, updateUser);
+//get password by id
+// usersRoute.get("/password/:id", protectRoute, getUserPasswordById);
 export default usersRoute;
