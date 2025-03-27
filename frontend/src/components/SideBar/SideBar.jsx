@@ -5,6 +5,7 @@ import "./sidebar.css";
 import { useEffect, useState } from "react";
 import useGetConversation from "../../hooks/useGetConversation";
 import { useNavigate } from "react-router";
+import { useSocketContext } from "../../context/SocketContext";
 export default function SideBar() {
   const { loading, conversation, setConversation } = useGetConversation();
   const [sortedConversation, setSortedConversation] = useState([]);
@@ -20,6 +21,7 @@ export default function SideBar() {
   //   });
   //   setSortedConversation(sorted);
   // }, [conversation]);
+
   return (
     <>
       <div className="w-full h-5/6 sidebar-container">

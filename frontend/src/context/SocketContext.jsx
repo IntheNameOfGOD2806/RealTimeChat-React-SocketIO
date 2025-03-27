@@ -26,6 +26,7 @@ export const SocketContextProvider = ({ children }) => {
       socket.on("getOnlineUsers", (data) => {
         setOnlineUsers(data);
       });
+     
       return () => socket.close();
     } else {
       if (socket) {

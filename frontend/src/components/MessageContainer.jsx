@@ -8,6 +8,7 @@ import useConversation from "../zustand/useConversation";
 import useListenMessages from "../hooks/useListenMessages";
 // import { MessageSkeleton } from "./skeletons/MessageSkeleton";
 export default function MessageContainer() {
+  const { selectedConversation, messages, setMessages } = useConversation();
   useListenMessages();
   const [loading, setLoading] = useState(false);
   const [editMsg, setEditMsg] = useState(false);
@@ -28,7 +29,7 @@ export default function MessageContainer() {
   };
   const LastMessageRef = useRef();
   // eslint-disable-next-line no-unused-vars
-  const { selectedConversation, messages, setMessages } = useConversation();
+
   useEffect(() => {
     selectedConversation?._id !== undefined && fetchMessages();
   }, [selectedConversation?._id, setMessages]);
@@ -55,7 +56,7 @@ export default function MessageContainer() {
             messages.map((message) => {
               return (
                 <div key={message._id} ref={LastMessageRef}>
-                  <Message editMsg={editMsg} setEditMsg={setEditMsg} message={message} loading={loading} />
+                  <Message fetchMessages={fetchMessages} editMsg={editMsg} setEditMsg={setEditMsg} message={message} loading={loading} />
                 </div>
               );
             })}

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import User from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateToken.js";
+import { io } from "../socket/socket.js";
 export const registerUser = async (req, res) => {
     try {
         const { username, fullName, password, confirmPassword, gender, profileImage } = req.body;
@@ -36,6 +37,7 @@ export const registerUser = async (req, res) => {
         newUser && await newUser.save();
         // generate token and set cookie
         generateTokenAndSetCookie(newUser._id, res);
+        io.emit("listUsers");
         newUser && res.status(201).json({
             success: true,
             message: "User created successfully",

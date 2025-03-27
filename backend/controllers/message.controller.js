@@ -19,8 +19,9 @@ export const sendMessage = async (req, res) => {
       senderId,
       receiverId,
       message,
+      createdAt: new Date().toISOString(),
     });
-    newMessage.save()
+    await newMessage.save()
     // add msg id to conversation
     newMessage && conversation.messages.push(newMessage._id);
 
@@ -67,6 +68,28 @@ export const getMessages = async (req, res) => {
         success: true,
         data: conversation.messages,
       });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const updateMessage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { message } = req.body;
+    const updatedMessage = await Message.findByIdAndUpdate(id, { message });
+    if (!updatedMessage) {
+      return res.status(404).json({
+        success: false,
+        error: "Message not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Message updated successfully",
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
