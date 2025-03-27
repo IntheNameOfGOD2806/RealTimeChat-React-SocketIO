@@ -26,9 +26,13 @@ export default function Home() {
   };
   return (
     <>
-      <div className=" navbar bg-base-100 shadow-sm">
+      <div className=" navbar bg-base-100 shadow-sm"
+       style={{
+        marginTop: '-149px !important' 
+      }}
+      >
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">WeChat</a>
+          <a onClick={() => navigate("/")} className="btn btn-ghost text-xl">WeChat</a>
         </div>
         <div className="flex-none">
           <div className="dropdown dropdown-end">

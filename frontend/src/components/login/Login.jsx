@@ -20,7 +20,7 @@ export default function Login() {
   };
   return (
     <>
-      <div className="flex flex-col justify-center items-center min-w-96 mx-auto">
+      <div className="h-screen flex flex-col justify-center items-center min-w-96 mx-auto">
         <div
           className="text-white w-full p-6 rounded-lg shadow-md  backdrop-filter backdrop-blur-md
         bg-opacity-0 "

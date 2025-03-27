@@ -21,7 +21,7 @@ export default function Signup() {
   };
   return (
     <>
-      <div className="flex flex-col justify-center items-center min-w-96 mx-auto">
+      <div className="h-screen flex flex-col justify-center items-center min-w-96 mx-auto">
         <div
           className="text-white w-full p-6 rounded-lg shadow-md  backdrop-filter backdrop-blur-md
           bg-opacity-0 "
@@ -95,7 +95,7 @@ export default function Signup() {
               />
             )}
             <div>
-              <label className="input input-bordered flex items-center gap-2">
+              <label className="input input-bordered flex items-center gap-2 focus-within:ring-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -120,7 +120,7 @@ export default function Signup() {
               </label>
             </div>
             <div>
-              <label className="input input-bordered flex items-center gap-2">
+              <label className="input input-bordered flex items-center gap-2 focus-within:ring-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"

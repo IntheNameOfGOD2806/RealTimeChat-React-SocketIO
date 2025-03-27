@@ -1,37 +1,33 @@
 import axios from "../utils/axiosCustomize";
 
 const getlistUsers = () => {
-    return axios.get(
-        `api/users`,
-        { withCredentials: true }
-    );
-}
+  return axios.get(`api/users`, { withCredentials: true });
+};
 const getUserById = (id) => {
-    return axios.get(
-        `api/users/${id}`,
-        { withCredentials: true }
-    );
-}
+  return axios.get(`api/users/${id}`, { withCredentials: true });
+};
 const getAllMessagesOfConversation = (id) => {
-    return axios.get(
-        `api/msg/${id}`,
-        { withCredentials: true }
-    );
-}
+  return axios.get(`api/msg/${id}`, { withCredentials: true });
+};
 const sendMessage = (receiverId, message) => {
-    return axios.post(
-        `api/msg/sendMessage/${receiverId}`,
-        { message },
-        { withCredentials: true }
-    );
-}
+  return axios.post(
+    `api/msg/sendMessage/${receiverId}`,
+    { message },
+    { withCredentials: true }
+  );
+};
 const searchUsers = (keyword) => {
-    return axios.get(
-        `api/users/search?keyword=${keyword}`,
-        { withCredentials: true }
-    );
-}
-
+  return axios.get(`api/users/search?keyword=${keyword}`, {
+    withCredentials: true,
+  });
+};
+const changePassword = (oldPassword, newPassword) => {
+  return axios.post(
+    `api/auth/change-password`,
+    { oldPassword, newPassword },
+    { withCredentials: true }
+  );
+};
 
 const handleFileUpload = async (file) => {
   try {
@@ -47,18 +43,29 @@ const handleFileUpload = async (file) => {
   }
 };
 const updateUser = (user) => {
-    return axios.put(
-        `api/users/${user._id}`,
-        user,
-        { withCredentials: true }
-    );
+  return axios.put(`api/users/${user._id}`, user, { withCredentials: true });
 };
 const deleteFile = (publicId) => {
-    return axios.delete(
-        `api/cloud-upload/${publicId}`,
-        { withCredentials: true }
-    );
+  return axios.delete(`api/cloud-upload/${publicId}`, {
+    withCredentials: true,
+  });
+};
+const updateMessage = (id, message) => {
+  return axios.put(
+    `api/msg/updateMessage/${id}`,
+    { message },
+    { withCredentials: true }
+  );
 };
 export {
-    getlistUsers,getAllMessagesOfConversation,sendMessage,searchUsers,getUserById,handleFileUpload,updateUser,deleteFile
+  updateMessage,
+  changePassword,
+  getlistUsers,
+  getAllMessagesOfConversation,
+  sendMessage,
+  searchUsers,
+  getUserById,
+  handleFileUpload,
+  updateUser,
+  deleteFile,
 };

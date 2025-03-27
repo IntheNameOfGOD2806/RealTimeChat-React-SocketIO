@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import User from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateToken.js";
+import { io } from "../socket/socket.js";
 export const registerUser = async (req, res) => {
     try {
         const { username, fullName, password, confirmPassword, gender, profileImage } = req.body;
@@ -36,6 +37,7 @@ export const registerUser = async (req, res) => {
         newUser && await newUser.save();
         // generate token and set cookie
         generateTokenAndSetCookie(newUser._id, res);
+        io.emit("listUsers");
         newUser && res.status(201).json({
             success: true,
             message: "User created successfully",
@@ -96,4 +98,42 @@ export const logout = async (req, res) => {
         });
     }
 }
+//changePassword
+ export const changePassword = async (req, res) => {
+    try {
+
+        const { oldPassword, newPassword } = req.body;
+        // find user by username
+        const user = await User.findById(req.user._id);
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+        // check password
+        const isPasswordCorrect = await bcrypt.compare(oldPassword, user?.password || "");
+        if (!isPasswordCorrect) {
+            return res.status(400).json({
+                success: false,
+                error: "Incorrect password"
+            });
+        }
+        // hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        // update password
+        user.password = hashedPassword;
+        await user.save();
+        res.status(200).json({
+            success: true,
+            message: "Password changed successfully"
+        });
+     } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+     }
+ }
 // test

@@ -5,18 +5,32 @@ import "./sidebar.css";
 import { useEffect, useState } from "react";
 import useGetConversation from "../../hooks/useGetConversation";
 import { useNavigate } from "react-router";
+import { useSocketContext } from "../../context/SocketContext";
 export default function SideBar() {
   const { loading, conversation, setConversation } = useGetConversation();
+  const [sortedConversation, setSortedConversation] = useState([]);
+  const [sortBy, setSortBy] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     setIsMounted(true);
   }, []);
+  // useEffect(() => {
+  //   const sorted = [...conversation].sort((a, b) => {
+  //     return new Date(b.createdAt) - new Date(a.createdAt);
+  //   });
+  //   setSortedConversation(sorted);
+  // }, [conversation]);
+
   return (
     <>
       <div className="w-full h-5/6 sidebar-container">
         <div>
           <SearchInput
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            sortedConversation={sortedConversation}
+            setSortedConversation={setSortedConversation}
             conversation={conversation}
             setConversation={setConversation}
           />
@@ -28,7 +42,7 @@ export default function SideBar() {
             </div>
           ) : (
             <>
-              {conversation?.length > 0 ? (
+              {conversation?.length > 0 && sortedConversation?.length === 0 && !sortBy && (
                 <div className="">
                   {conversation.map((conversation) => (
                     <Conversation
@@ -37,7 +51,18 @@ export default function SideBar() {
                     />
                   ))}
                 </div>
-              ) : (
+              )}
+              {sortedConversation?.length > 0 && sortBy && (
+                <div className="">
+                  {sortedConversation.map((conversation) => (
+                    <Conversation
+                      key={conversation._id}
+                      conversation={conversation}
+                    />
+                  ))}
+                </div>
+              )}
+              {conversation?.length === 0 || sortedConversation?.length === 0 && sortBy && (
                 <div className="flex flex-col w-full h-full">
                   <p>No Conversation Found</p>
                 </div>
@@ -47,9 +72,12 @@ export default function SideBar() {
         </div>
       </div>
       <div className="absolute bottom-3 left-5">
-        <RiArrowGoBackFill onClick={() => {
-           navigate("/login/1")
-        }} className="w-8 h-8" />
+        <RiArrowGoBackFill
+          onClick={() => {
+            navigate("/login/1");
+          }}
+          className="w-8 h-8"
+        />
       </div>
     </>
   );
