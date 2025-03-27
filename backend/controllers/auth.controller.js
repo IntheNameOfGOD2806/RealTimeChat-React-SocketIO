@@ -96,4 +96,42 @@ export const logout = async (req, res) => {
         });
     }
 }
+//changePassword
+ export const changePassword = async (req, res) => {
+    try {
+
+        const { oldPassword, newPassword } = req.body;
+        // find user by username
+        const user = await User.findById(req.user._id);
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+        // check password
+        const isPasswordCorrect = await bcrypt.compare(oldPassword, user?.password || "");
+        if (!isPasswordCorrect) {
+            return res.status(400).json({
+                success: false,
+                error: "Incorrect password"
+            });
+        }
+        // hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        // update password
+        user.password = hashedPassword;
+        await user.save();
+        res.status(200).json({
+            success: true,
+            message: "Password changed successfully"
+        });
+     } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+     }
+ }
 // test

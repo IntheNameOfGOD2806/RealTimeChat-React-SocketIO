@@ -31,7 +31,13 @@ const searchUsers = (keyword) => {
         { withCredentials: true }
     );
 }
-
+const changePassword = (oldPassword, newPassword) => {
+    return axios.post(
+        `api/auth/change-password`,
+        { oldPassword, newPassword },
+        { withCredentials: true }
+    );
+}
 
 const handleFileUpload = async (file) => {
   try {
@@ -60,5 +66,5 @@ const deleteFile = (publicId) => {
     );
 };
 export {
-    getlistUsers,getAllMessagesOfConversation,sendMessage,searchUsers,getUserById,handleFileUpload,updateUser,deleteFile
+   changePassword, getlistUsers,getAllMessagesOfConversation,sendMessage,searchUsers,getUserById,handleFileUpload,updateUser,deleteFile
 };

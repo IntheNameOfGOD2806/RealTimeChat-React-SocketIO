@@ -4,15 +4,49 @@ import { useAuthContext } from "../../context/AuthContext";
 import useLogout from "../../hooks/useLogout";
 import { useNavigate } from "react-router";
 import { isString } from "antd/es/button";
+import { Button, Modal } from "antd";
 import {
+  changePassword,
   deleteFile,
   handleFileUpload,
   updateUser,
 } from "../../services/apiService";
 import toast from "react-hot-toast";
 import { extractPublicId } from "../../utils/extractPublicId";
-
+import { Input } from "antd";
 export default function Profile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = async () => {
+    //validate
+    if (!formChangePassword.oldPassword || !formChangePassword.newPassword) {
+      toast.error("Please enter old password and new password");
+      return;
+    }
+    setLoading(true);
+    const response = await changePassword(
+      formChangePassword.oldPassword,
+      formChangePassword.newPassword
+    );
+    if (response.error) {
+      toast.error(response.error);
+      setLoading(false);
+    }
+    if (response?.success) {
+      toast.success("Change password successfully");
+      setLoading(false);
+      setIsModalOpen(false);
+    }
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const [formChangePassword, setFormChangePassword] = useState({
+    oldPassword: "",
+    newPassword: "",
+  });
   const { authUser, setAuthUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState({
@@ -29,7 +63,7 @@ export default function Profile() {
     } else {
       profilePictureURL = inputs.profilePicture;
     }
-  
+
     const response = await updateUser({
       ...inputs,
       _id: authUser._id,
@@ -65,10 +99,13 @@ export default function Profile() {
 
   return (
     <>
-      <div className=" navbar bg-base-100 shadow-sm "
-      style={{
-        // marginTop: '-140px' 
-      }}
+      <div
+        className=" navbar bg-base-100 shadow-sm "
+        style={
+          {
+            // marginTop: '-140px'
+          }
+        }
       >
         <div className="flex-1">
           <a onClick={() => navigate("/")} className="btn btn-ghost text-xl">
@@ -190,6 +227,43 @@ export default function Profile() {
               "Update Profile"
             )}
           </button>
+          {/* change password */}
+          <button className="btn btn-primary w-full mt-4" onClick={showModal}>
+            Change Password
+          </button>
+          <Modal
+            width={600}
+            title="Change Password"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <Input.Password
+              style={{
+                marginBottom: "10px",
+              }}
+              placeholder="Enter old password"
+              name="oldPassword"
+              value={formChangePassword.oldPassword}
+              onChange={(e) =>
+                setFormChangePassword({
+                  ...formChangePassword,
+                  oldPassword: e.target.value,
+                })
+              }
+            />
+            <Input.Password
+              placeholder="Enter new password"
+              name="newPassword"
+              value={formChangePassword.newPassword}
+              onChange={(e) =>
+                setFormChangePassword({
+                  ...formChangePassword,
+                  newPassword: e.target.value,
+                })
+              }
+            />
+          </Modal>
         </div>
       </div>
     </>
