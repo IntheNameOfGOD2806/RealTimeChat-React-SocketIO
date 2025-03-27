@@ -51,7 +51,8 @@ export default function Conversation({ conversation }) {
             }}
             className="text-ellipsis overflow-hidden whitespace-nowrap font-bold text-pink-400"
           >
-            {conversation.username}
+            {conversation.username}{" "}
+            {conversation?.gender === "male" ? "♂" : "♀"}
           </span>
           <span
             style={{

@@ -41,7 +41,7 @@ export default function Message(props) {
       __v: PropTypes.number.isRequired,
     }).isRequired,
   };
-  console.log(editMsg?.toString(), (message?._id)?.toString());
+  // console.log(editMsg?.toString(), (message?._id)?.toString());
   return (
     <>
       {/* { props?.loading===true && <MessageSkeleton />} */}

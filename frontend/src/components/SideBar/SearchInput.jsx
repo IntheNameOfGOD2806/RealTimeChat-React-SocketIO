@@ -55,6 +55,7 @@ export default function SearchInput({
     const res = await searchUsers(keyword);
     console.log(res.data);
     setConversation(res.data);
+    setSortedConversation([]);
   };
   const handleSearch = async (e) => {
     setSortBy("");
@@ -65,6 +66,7 @@ export default function SearchInput({
       }, 300)();
     } else {
       setConversation((await getlistUsers()).data);
+      setSortedConversation([]);
     }
   };
   return (

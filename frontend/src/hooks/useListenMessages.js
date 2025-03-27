@@ -12,11 +12,14 @@ const useListenMessages = () => {
 
   useEffect(() => {
     socket?.on("receive_message", async (data) => {
+      //tt sender
       const user = await getUserById(data?.senderId);
+      //gui tb
       toast.success(`new message from ${user?.data?.fullName}: ${data?.message}`, {
         duration: 5000,
         position: "top-right",
       });
+      console.log('data',data)
       setMessages([...messages, data]);
     });
     return () => {

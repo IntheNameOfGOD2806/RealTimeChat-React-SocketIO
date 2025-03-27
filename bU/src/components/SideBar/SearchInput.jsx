@@ -7,7 +7,7 @@ import { useSocketContext } from "../../../../frontend/src/context/SocketContext
 export default function SearchInput({ conversation, setConversation }) {
   const fetchSearchUsers = async (keyword) => {
     const res = await searchUsers(keyword);
-    console.log(res.data);
+    // console.log(res.data);
     setConversation(res.data);
   };
   const handleSearch =async (e) => {
