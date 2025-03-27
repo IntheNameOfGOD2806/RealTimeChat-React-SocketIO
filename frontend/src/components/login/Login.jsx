@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
 export default function Login() {
   const [inputs, setInputs] = useState({
@@ -9,10 +9,14 @@ export default function Login() {
   });
 
   const { loading, signIn } = useLogin();
+  const navigate = useNavigate();
   const submitForm = async (e) => {
     e.stopPropagation();
     e.preventDefault();
-    await signIn(inputs);
+    const response = await signIn(inputs);
+    if (response?.success) {
+      navigate("/");
+    }
   };
   return (
     <>

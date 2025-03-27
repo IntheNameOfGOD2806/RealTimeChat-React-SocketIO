@@ -10,6 +10,7 @@ import usersRoute from './routes/usersRoute.js';
 import { app, server } from './socket/socket.js';
 dotenv.config();
 import cors from 'cors';
+import CloudUpload from './routes/cloud-upload.js';
 app.use(cors({
     origin: "http://localhost:5173", // Cho phép React frontend truy cập
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -25,7 +26,9 @@ app.use('/api/auth', authRoutes)
 // msg routes
 app.use('/api/msg', msgRoutes)
 app.use('/api/users', usersRoute)
-
+app.use('/api/cloud-upload',
+    CloudUpload
+  )
 app.use(express.static(path.join(__dirname, '/frontend/dist')))
 const PORT = process.env.PORT || 2806;
 
