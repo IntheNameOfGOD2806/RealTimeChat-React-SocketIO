@@ -33,6 +33,32 @@ const searchUsers = (keyword) => {
 }
 
 
+const handleFileUpload = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await axios.post("api/cloud-upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response?.secure_url;
+  } catch (error) {
+    console.error("Upload failed:", error);
+  }
+};
+const updateUser = (user) => {
+    return axios.put(
+        `api/users/${user._id}`,
+        user,
+        { withCredentials: true }
+    );
+};
+const deleteFile = (publicId) => {
+    return axios.delete(
+        `api/cloud-upload/${publicId}`,
+        { withCredentials: true }
+    );
+};
 export {
-    getlistUsers,getAllMessagesOfConversation,sendMessage,searchUsers,getUserById
+    getlistUsers,getAllMessagesOfConversation,sendMessage,searchUsers,getUserById,handleFileUpload,updateUser,deleteFile
 };

@@ -48,7 +48,7 @@ export default function SideBar() {
       </div>
       <div className="absolute bottom-3 left-5">
         <RiArrowGoBackFill onClick={() => {
-          
+           navigate("/login/1")
         }} className="w-8 h-8" />
       </div>
     </>

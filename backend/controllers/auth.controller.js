@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 export const registerUser = async (req, res) => {
     try {
-        const { username, fullName, password, confirmPassword, gender } = req.body;
+        const { username, fullName, password, confirmPassword, gender, profileImage } = req.body;
         console.log(req.body);
         if (password !== confirmPassword) {
             return res.status(400).json({
@@ -30,7 +30,7 @@ export const registerUser = async (req, res) => {
             fullName,
             password: hashedPassword,
             gender,
-            profilePicture: gender === "male" ? boyProfilePicture : girlProfilePicture
+            profilePicture: profileImage || (gender === "male" ? boyProfilePicture : girlProfilePicture)
         })
         // save user to database
         newUser && await newUser.save();

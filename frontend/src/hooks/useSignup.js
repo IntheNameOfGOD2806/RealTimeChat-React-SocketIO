@@ -2,6 +2,7 @@
 import * as React from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
+import { handleFileUpload } from "../services/apiService";
 const useSignup = () => {
   const [loading, setLoading] = React.useState(false);
   const { authUser, setAuthUser } = useAuthContext();
@@ -11,6 +12,7 @@ const useSignup = () => {
     password,
     confirmPassword,
     gender,
+    profileImage,
   }) => {
     // console.log(username, fullName, password, confirmPassword, gender);
 
@@ -20,32 +22,37 @@ const useSignup = () => {
       password,
       confirmPassword,
       gender,
+      profileImage,
     });
     if (!success) return;
     try {
       setLoading(true);
-      const res = await fetch("https://realtimechat-react-socketio.onrender.com/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          fullName,
-          password,
-          confirmPassword,
-          gender,
-        }),
-      });
-      const data = await res.json();
-      // console.log(">>>>check data", data);
-      data?.success === true && toast.success(data?.message);
-      data?.success === false && toast.error(data?.error);
-      //local storage
-      data?.success === true &&
-        localStorage.setItem("auth-user", JSON.stringify(data?.user));
-      //auth context
-      data?.success === true && setAuthUser(data?.user);
+      const resUpload = await handleFileUpload(profileImage);
+      if (resUpload) {
+        const res = await fetch("https://realtimechat-react-socketio.onrender.com/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            fullName,
+            password,
+            confirmPassword,
+            gender,
+            profileImage: resUpload,
+          }),
+        });
+        const data = await res.json();
+        // console.log(">>>>check data", data);
+        data?.success === true && toast.success(data?.message);
+        data?.success === false && toast.error(data?.error);
+        //local storage
+        data?.success === true &&
+          localStorage.setItem("auth-user", JSON.stringify(data?.user));
+        //auth context
+        data?.success === true && setAuthUser(data?.user);
+      }
     } catch (error) {
       toast.error(error.message);
     } finally {

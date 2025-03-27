@@ -11,6 +11,7 @@ import Home from "./components/home/Home";
 import Login from "./components/login/Login";
 import Signup from "./components/signup/Signup";
 import { useAuthContext } from "./context/AuthContext";
+import Profile from "./components/Profile/Profile";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -24,15 +25,21 @@ function App() {
       element:  authUser ? <Navigate to="/" /> : <Login />,
     },
     {
+      path: "/login/1",
+      element:  <Login />,
+    },
+    {
+      path: "/profile",
+      element:  authUser ? <Profile /> : <Navigate to="/login" />,
+    },
+    {
       path: "/signup",
       element: authUser ? <Navigate to="/" /> : <Signup />,
     },
   ]);
   return (
     <>
-      <div style={{
-        paddingTop: "120px"
-      }} className=" h-screen flex flex-col items-center justify-center ">
+      <div  className=" h-screen flex flex-col items-center justify-center ">
         <RouterProvider router={router} />
         <Toaster />.
       </div>

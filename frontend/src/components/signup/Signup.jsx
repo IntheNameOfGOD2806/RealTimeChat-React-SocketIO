@@ -8,13 +8,13 @@ export default function Signup() {
     password: "",
     confirmPassword: "",
     gender: "",
+    profileImage: "",
   });
   const { loading, signup } = useSignup();
   const submitForm = async (e) => {
     e.stopPropagation();
     e.preventDefault();
     await signup(inputs);
-
   };
   const handleCheckBoxChange = (gender) => {
     setInputs({ ...inputs, gender });
@@ -77,6 +77,23 @@ export default function Signup() {
                 />
               </label>
             </div>
+            <div>
+              <h3>Profile Image</h3>
+              <input
+                type="file"
+                onChange={(e) =>
+                  setInputs({ ...inputs, profileImage: e.target.files[0] })
+                }
+                className="file-input file-input-secondary"
+              />
+            </div>
+            {inputs.profileImage && (
+              <img
+                src={URL.createObjectURL(inputs.profileImage)}
+                alt="Profile Preview"
+                className="mt-2 w-20 h-20 rounded-full object-cover"
+              />
+            )}
             <div>
               <label className="input input-bordered flex items-center gap-2">
                 <svg
@@ -157,9 +174,13 @@ export default function Signup() {
               <Link to={"/login"}>Already have an account?</Link>
             </div>
             <div>
-            <button className='btn btn-secondary w-full' disabled={loading}>
-							{loading ? <span className='loading loading-spinner'></span> : "Sign Up"}
-						</button>
+              <button className="btn btn-secondary w-full" disabled={loading}>
+                {loading ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Sign Up"
+                )}
+              </button>
             </div>
           </form>
         </div>
