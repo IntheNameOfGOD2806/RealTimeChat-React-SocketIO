@@ -57,7 +57,13 @@ const updateMessage = (id, message) => {
     { withCredentials: true }
   );
 };
+const deleteMessage = (id) => {
+  return axios.delete(`api/msg/deleteMessage/${id}`, {
+    withCredentials: true,
+  });
+};
 export {
+  deleteMessage,
   updateMessage,
   changePassword,
   getlistUsers,
