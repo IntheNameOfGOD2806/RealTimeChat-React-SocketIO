@@ -8,7 +8,7 @@ import useConversation from "../../zustand/useConversation";
 import { Dropdown } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
-import { updateMessage } from "../../services/apiService";
+import { deleteMessage, updateMessage } from "../../services/apiService";
 import toast from "react-hot-toast";
 export default function Message(props) {
   const { editMsg, setEditMsg, message, fetchMessages } = props;
@@ -59,6 +59,15 @@ export default function Message(props) {
       toast.success("Message updated successfully");
     } else {
       toast.error("Failed to update message");
+    }
+  };
+  const handleDelete = async () => {
+    const response = await deleteMessage(message?._id);
+    if (response?.success) {
+      fetchMessages();
+      toast.success("Message deleted successfully");
+    } else {
+      toast.error("Failed to delete message");
     }
   };
   // console.log(editMsg?.toString(), (message?._id)?.toString());
@@ -133,7 +142,7 @@ export default function Message(props) {
                   {
                     key: uuidv4(),
                     label: (
-                      <div onClick={() => setEditMsg(message?._id)}>Delete</div>
+                      <div onClick={handleDelete}>Delete</div>
                     ),
                   },
                 ],
